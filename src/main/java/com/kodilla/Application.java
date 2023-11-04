@@ -1,31 +1,36 @@
-package com.kodilla.abstracts.homework;
+package com.kodilla.stream.optional.homework;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 public class Application {
+
     public static void main(String[] args) {
-        Triangle triangle = new Triangle(10, 7, 3, 4, 12);
+        Teacher teacher1 = new Teacher("Grzegorz Brzęczyszczykiewicz");
+        Teacher teacher2 = new Teacher("Franciszek Dolas");
 
-        double area = triangle.calculateArea();
-        System.out.println("Pole trójkąta wynosi " + area);
+        List<Student> students = new ArrayList<>();
+        students.add(new Student("John McMurry", teacher1));
+        students.add(new Student("Adam Bielański", teacher2));
+        students.add(new Student("Peter Atkins", null));
 
-        double Circumference = triangle.calculateCircumference();
-        System.out.println("Obwód trójkąta wynosi " + Circumference);
-        System.out.println(" ");
+        for (Student student : students) {
+            String studentName = student.getName();
+            String teacherName = Optional.ofNullable(student.getTeacher())
+                    .map(Teacher::getName)
+                    .orElse("<undefined>");
 
-        Square square = new Square(7);
+            System.out.println("Uczeń: " + studentName + ", nauczyciel: " + teacherName);
+        }
+    }
 
-        double squareArea = square.calculateArea();
-        System.out.println("Pole kwadratu wynosi " + squareArea);
+    public static String displayStudentTeacherPair(Student student) {
+        String studentName = student.getName();
+        String teacherName = Optional.ofNullable(student.getTeacher())
+                .map(Teacher::getName)
+                .orElse("<undefined>");
 
-        double squareCircumference = square.calculateCircumference(); // Poprawka na calculatePerimeter()
-        System.out.println("Obwód kwadratu wynosi " + squareCircumference);
-        System.out.println(" ");
-
-        Trapeze trapeze = new Trapeze(4,4,10,7,5);
-
-        double trapezeArea = trapeze.calculateArea();
-        System.out.println("Pole trapezu wynosi" + " " + trapezeArea);
-
-        double trapezeCircumference = trapeze.calculateCircumference();
-        System.out.println("Obwód trapezu wynosi" + " " + trapezeCircumference);
+        return "Uczeń: " + studentName + ", nauczyciel: " + teacherName;
     }
 }
